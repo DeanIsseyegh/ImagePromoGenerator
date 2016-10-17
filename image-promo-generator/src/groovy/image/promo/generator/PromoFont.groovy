@@ -6,16 +6,22 @@ import java.awt.GraphicsEnvironment
 
 class PromoFont {
 
-	Font font
+	private Font font
+	public static final String FONT_AWESOME_TTF = "fontawesome-webfont.ttf"
 
 	public PromoFont() {
 		try {
 			GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
-			ge.registerFont(Font.createFont(Font.TRUETYPE_FONT, new File("fontawesome-webfont.ttf")));
-			font = new Font("fontawesome-webfont", Font.PLAIN, 13)
+			Font customFont = Font.createFont(Font.TRUETYPE_FONT, new File(FONT_AWESOME_TTF))
+			ge.registerFont(customFont)
+			font = new Font(FONT_AWESOME_TTF, Font.PLAIN, 13)
 		} catch (IOException|FontFormatException e) {
 			println e
 		}
 	}
 
+	public Font getFont() {
+		font
+	}
 }
+
