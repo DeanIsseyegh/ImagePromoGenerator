@@ -8,18 +8,19 @@ import java.awt.image.BufferedImage
 
 class PromoContainerBox {
 
-	String hexColour
-	String promoText
+	private String hexColour
+	private String promoText
+	private BufferedImage generatedImage
 
-	BufferedImage generatedImage
+	private static final MIN_WIDTH = 35
+	private static final WIDTH = 130
+	private static final HEIGHT = 28
 
-	public static final MIN_WIDTH = 35
-	public static final WIDTH = 130
-	public static final HEIGHT = 28
+	//TODO: Verify these values and make sure text looks good
+	private static final TEXT_X_OFFSET = 28
+	private static final TEXT_Y_OFFSET = 20
 
-	public static final TEXT_X_OFFSET = 28
-	public static final TEXT_Y_OFFSET = 20
-
+	//TODO: Make box length dynamic based on text length
 	public PromoContainerBox(String hexColour, String promoText) {
 		this.hexColour = hexColour
 		this.promoText = promoText
