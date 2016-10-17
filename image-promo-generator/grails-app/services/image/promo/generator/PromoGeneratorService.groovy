@@ -7,11 +7,9 @@ import java.awt.image.BufferedImage
 @Transactional
 class PromoGeneratorService {
 
-    def generatePromoImage() {
+/*    BufferedImage generatePromoImage(BufferedImage promoContainerBox, BufferedImage saleImage) {
+		PromoImage promoImage = new PromoImage(promoContainerBox, saleImage)
+		promoImage.image
+    }*/
 
-    }
-
-	private overlayPromoContainerBoxOn(BufferedImage bgImage) {
-
-	}
 }
