@@ -1,9 +1,8 @@
 package image.promo.generator
 
-import org.xhtmlrenderer.css.parser.property.PrimitivePropertyBuilders.Height
-
 import javax.imageio.ImageIO
 import java.awt.Color
+import java.awt.Font
 import java.awt.Graphics2D
 import java.awt.image.BufferedImage
 
@@ -18,6 +17,9 @@ class PromoContainerBox {
 	public static final WIDTH = 130
 	public static final HEIGHT = 28
 
+	public static final TEXT_X_OFFSET = 28
+	public static final TEXT_Y_OFFSET = 20
+
 	public PromoContainerBox(String hexColour, String promoText) {
 		this.hexColour = hexColour
 		this.promoText = promoText
@@ -29,16 +31,25 @@ class PromoContainerBox {
 	}
 
 	private generatePromoBox() {
-		BufferedImage bufferedImage = createBufferedImage()
-		drawRectangeOnImage(bufferedImage)
-		generatedImage = bufferedImage
+		BufferedImage image = createBufferedImage()
+		Graphics2D g2d = image.createGraphics()
+		drawContainer(g2d)
+		drawPromoText(g2d)
+		g2d.dispose()
+		generatedImage = image
+		testSave(generatedImage)
 	}
 
-	private drawRectangeOnImage(BufferedImage bufferedImage) {
-		Graphics2D g2d = bufferedImage.createGraphics()
+	private drawPromoText(Graphics2D g2d) {
+		g2d.setColor(Color.WHITE)
+		Font promoFont = new PromoFont().font
+		g2d.setFont(promoFont)
+		g2d.drawString(promoText, TEXT_X_OFFSET, TEXT_Y_OFFSET)
+	}
+
+	private drawContainer(Graphics2D g2d) {
 		g2d.setColor(generateColorBasedOnHex())
 		g2d.fillRect(0, 0, WIDTH, HEIGHT)
-		g2d.dispose()
 	}
 
 	private createBufferedImage() {
@@ -49,8 +60,8 @@ class PromoContainerBox {
 		Color.decode(hexColour)
 	}
 
-/*	public static testSave(img) {
+	public static testSave(img) {
 		File outputfile = new File("rectestx.png");
 		ImageIO.write(img, "png", outputfile);
-	}*/
+	}
 }
