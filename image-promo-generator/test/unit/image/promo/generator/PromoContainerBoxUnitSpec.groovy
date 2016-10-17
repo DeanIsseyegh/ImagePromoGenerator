@@ -1,5 +1,7 @@
 package image.promo.generator
 
+import image.promo.generator.styling.PromoFont
+import image.promo.generator.styling.PromoIcon
 import spock.lang.Specification
 
 import java.awt.Color
@@ -10,18 +12,13 @@ import java.awt.image.BufferedImage
 class PromoContainerBoxUnitSpec extends Specification {
 
 	final String orangeHexColour = "#ff8c00"
+	PromoIcon icon
 
 	PromoContainerBox promoContainerBox
 
 	def setup() {
-		promoContainerBox = new PromoContainerBox(orangeHexColour, "testpromo")
-	}
-
-	def "Generates promo box with color based on hex"() {
-		when:
-			Color color = promoContainerBox.generateColorBasedOnHex()
-		then:
-			getHexColor(color) == orangeHexColour
+		icon = Mock(PromoIcon)
+		promoContainerBox = new PromoContainerBox(orangeHexColour, "testpromo", icon)
 	}
 
 	def "Generates promo box based on hex colour"() {
@@ -36,6 +33,13 @@ class PromoContainerBoxUnitSpec extends Specification {
 			BufferedImage generatedPromoBox = promoContainerBox.getImage()
 		then:
 			generatedPromoBox.getHeight() == PromoContainerBox.HEIGHT
+	}
+
+	def "Generates color based on hex"() {
+		when:
+			Color color = promoContainerBox.generateColorBasedOnHex()
+		then:
+			getHexColor(color) == orangeHexColour
 	}
 
 	def "Draws container based on hex colour"() {
@@ -65,7 +69,7 @@ class PromoContainerBoxUnitSpec extends Specification {
 			generatedPromoBox.getWidth() == PromoContainerBox.WIDTH
 	}
 
-	def "Draws promo text on container"() {
+	def "Draws promo text"() {
 		given:
 			Graphics2D mockedGraphics = Mock(Graphics2D)
 
@@ -73,6 +77,16 @@ class PromoContainerBoxUnitSpec extends Specification {
 			promoContainerBox.drawPromoText(mockedGraphics)
 		then:
 			1 * mockedGraphics.drawString("testpromo", _, _)
+	}
+
+	def "Draws promo text in correct position"() {
+		given:
+			Graphics2D mockedGraphics = Mock(Graphics2D)
+
+		when:
+			promoContainerBox.drawPromoText(mockedGraphics)
+		then:
+			1 * mockedGraphics.drawString(_, PromoContainerBox.PROMO_TEXT_X_OFFSET, PromoContainerBox.PROMO_TEXT_Y_OFFSET)
 	}
 
 	def "Draws promo text with promo font"() {
@@ -94,6 +108,16 @@ class PromoContainerBoxUnitSpec extends Specification {
 			promoContainerBox.drawPromoText(mockedGraphics)
 		then:
 			1 * mockedGraphics.setColor(Color.WHITE)
+	}
+
+	def "Draws icon in correct position"() {
+		given:
+			Graphics2D mockedGraphics = Mock(Graphics2D)
+
+		when:
+			promoContainerBox.drawIcon(mockedGraphics)
+		then:
+			1 * icon.draw(mockedGraphics, PromoContainerBox.ICON_X_OFFSET, PromoContainerBox.ICON_Y_OFFSET)
 	}
 
 	private getHexColor(BufferedImage bufferedImage, int x, int y) {

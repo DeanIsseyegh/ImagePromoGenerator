@@ -19,11 +19,11 @@ class PromoImage {
 		this.iconImage = iconImage
 		this.backgroundImage = backgroundImage
 		this.promoContainerBox = promoContainerBox
-		overlayPromoContainerBox()
-		testSave(backgroundImage)
+		overlayPromoContainerBoxOnBackground()
+		promoImage = backgroundImage
 	}
 
-	private overlayPromoContainerBox() {
+	private overlayPromoContainerBoxOnBackground() {
 		Graphics2D graphics = backgroundImage.createGraphics()
 		graphics.drawImage(promoContainerBox, CONTAINER_BOX_X_OFFSET, CONTAINER_BOX_Y_OFFSET, null)
 		graphics.dispose()
