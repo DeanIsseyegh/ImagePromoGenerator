@@ -17,16 +17,16 @@ class PromoContainerBox {
 	private BufferedImage generatedImage
 
 	private static final MIN_WIDTH = 35
-	private static final WIDTH = 130
+	private static final WIDTH = 110
 	private static final HEIGHT = 28
 
 	//TODO: Verify these values and make sure text looks good
 	private static final PROMO_TEXT_X_OFFSET = 28
-	private static final PROMO_TEXT_Y_OFFSET = 20
+	private static final PROMO_TEXT_Y_OFFSET = 18
 
 	//TODO: Verify these values and make sure text looks good
-	private static final ICON_X_OFFSET = 8
-	private static final ICON_Y_OFFSET = 20
+	private static final ICON_X_OFFSET = 6
+	private static final ICON_Y_OFFSET = 6
 
 	//TODO: Make box length dynamic based on text length
 	public PromoContainerBox(String hexColour, String promoText, PromoIcon icon) {

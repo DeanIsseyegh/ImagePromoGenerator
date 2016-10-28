@@ -10,7 +10,7 @@ class PromoImage {
 
 	private BufferedImage promoImage
 
-	private static final int CONTAINER_BOX_X_OFFSET = 1
+	private static final int CONTAINER_BOX_X_OFFSET = 10
 	private static final int CONTAINER_BOX_Y_OFFSET = 10
 
 	PromoImage(BufferedImage backgroundImage, BufferedImage promoContainerBox) {
