@@ -5,9 +5,12 @@ import image.promo.generator.styling.IconUnicode
 import image.promo.generator.styling.PromoIcon
 
 import javax.imageio.ImageIO
+import javax.xml.bind.DatatypeConverter
 import java.awt.image.BufferedImage
 
 class PromoGeneratorController {
+
+	def index() {}
 
     def create() {
 		Boolean isIconAnImage = params.isIconAnImage
@@ -15,35 +18,50 @@ class PromoGeneratorController {
 		String hexColor = params.hexColor
 		String promoText = params.text
 		String saleImageUrl = params.saleImageUrl
+		log.info "Params: ${params}"
 
-		PromoIcon promoIcon = generatePromoIcon(isIconAnImage, icon)
+		PromoIcon promoIcon = generatePromoIcon(icon)
 		PromoContainerBox promoContainerBox = new PromoContainerBox(hexColor, promoText, promoIcon)
-		BufferedImage saleImage = downloadSaleImage(saleImageUrl)
-		PromoImage promoImage = new PromoImage(promoContainerBox.image, saleImage)
+		BufferedImage saleImage = downloadImg(saleImageUrl)
+		PromoImage promoImage = new PromoImage(saleImage, promoContainerBox.image, )
+		render(view: "index", model: [promoImage:convertToBase64(promoImage.image)])
+	}
+
+	private convertToBase64(BufferedImage image) {
+		ByteArrayOutputStream outputStream = new ByteArrayOutputStream()
+		ImageIO.write(image, "png", outputStream)
+		DatatypeConverter.printBase64Binary(outputStream.toByteArray());
+	}
+
+	def test() {
+		Boolean isIconAnImage = false
+		String icon = "testest"
+		String hexColor = "#ff8c00"
+		String promoText = "BUY THIS"
+		String saleImageUrl = "https://d1x3cbuht6sy0f.cloudfront.net/sales/37539/3285fcc2_e669_4301_8e1f_6da832002386.jpg"
+
+		PromoIcon promoIcon = generatePromoIcon(icon)
+		PromoContainerBox promoContainerBox = new PromoContainerBox(hexColor, promoText, promoIcon)
+		BufferedImage saleImage = downloadImg(saleImageUrl)
+		PromoImage promoImage = new PromoImage(saleImage, promoContainerBox.image)
+		ImageIO.write(promoImage.image, "png", new File('THE_COMPLETE.png'))
 		return promoImage.image
 	}
 
-	private PromoIcon generatePromoIcon(Boolean isIconAnImage, icon) {
-		if (isIconAnImage) {
-			new IconImage(icon)
-		} else {
-			new IconUnicode(icon)
-		}
+	private PromoIcon generatePromoIcon(String icon) {
+		new IconUnicode(icon)
 	}
 
-	private BufferedImage downloadSaleImage(String url) {
-		new BufferedImage(500, 500, 1)
+	private PromoIcon generatePromoIcon(BufferedImage icon) {
+		new IconImage(icon)
 	}
 
-	def downloadImg() {
-		def url = 'http://www.google.com/images/logo.gif'
-		File file = new File('google_logo.gif').newOutputStream()
-		file << new URL(url).openStream()
-		println file
-		BufferedImage bufferedImage = ImageIO.read(file);
-		File outputfile = new File("downloadimagetest.png");
-		ImageIO.write(bufferedImage, "png", outputfile);
-		file.inp
-		file.close()
+	private BufferedImage downloadImg(url) {
+		//def url = 'https://d1x3cbuht6sy0f.cloudfront.net/sales/37539/3285fcc2_e669_4301_8e1f_6da832002386.jpg'
+		File file = new File('saleImage.jpg')
+		BufferedOutputStream outputStream = file.newOutputStream()
+		outputStream << new URL(url).openStream()
+		outputStream.close()
+		ImageIO.read(file)
 	}
 }

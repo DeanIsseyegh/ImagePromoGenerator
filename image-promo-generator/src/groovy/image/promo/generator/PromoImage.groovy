@@ -17,7 +17,7 @@ class PromoImage {
 		promoImage = backgroundImage
 		this.promoContainerBox = promoContainerBox
 		overlayPromoContainerBoxOnBackground()
-		promoImage = backgroundImage
+		//promoImage = backgroundImage
 	}
 
 	private overlayPromoContainerBoxOnBackground() {
